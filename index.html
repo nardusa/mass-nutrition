@@ -941,6 +941,139 @@
       .testimonials-grid { grid-template-columns: 1fr; }
     }
 
+    /* ─── AUTH NAV ─── */
+    .nav-auth { display: flex; align-items: center; gap: 10px; }
+
+    .btn-login {
+      background: transparent;
+      border: 1.5px solid rgba(0,165,80,0.4);
+      color: rgba(255,255,255,0.75);
+      padding: 8px 20px; border-radius: 50px;
+      font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; font-family: inherit;
+      letter-spacing: 0.3px;
+    }
+    .btn-login:hover { border-color: var(--green); color: var(--green); }
+
+    .btn-signup-nav {
+      background: var(--grad-g); border: none;
+      color: #fff; padding: 9px 20px; border-radius: 50px;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,165,80,0.35);
+      transition: all 0.2s; font-family: inherit; letter-spacing: 0.3px;
+    }
+    .btn-signup-nav:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(0,165,80,0.5); }
+
+    .nav-user-info { display: flex; align-items: center; gap: 8px; }
+    .nav-user-avatar {
+      width: 32px; height: 32px; background: var(--grad-g);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800; color: #fff;
+      box-shadow: 0 0 12px rgba(0,165,80,0.4);
+    }
+    .nav-user-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.8); }
+
+    .btn-logout {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.45);
+      padding: 7px 14px; border-radius: 50px;
+      font-size: 12px; cursor: pointer; font-family: inherit;
+      transition: all 0.2s;
+    }
+    .btn-logout:hover { background: rgba(255,59,59,0.1); border-color: rgba(255,59,59,0.3); color: #ff6b6b; }
+
+    /* ─── AUTH MODAL ─── */
+    .auth-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,0.78);
+      backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .auth-overlay.open { display: flex; }
+
+    .auth-modal {
+      width: 100%; max-width: 420px;
+      background: #111;
+      border: 1px solid rgba(0,165,80,0.22);
+      border-radius: 24px; padding: 40px; position: relative;
+      box-shadow: 0 0 60px rgba(0,165,80,0.15), 0 24px 64px rgba(0,0,0,0.7);
+      animation: authSlideUp 0.3s ease;
+    }
+    @keyframes authSlideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .auth-close {
+      position: absolute; top: 18px; right: 18px;
+      width: 32px; height: 32px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: rgba(255,255,255,0.45); font-size: 16px; transition: all 0.2s;
+    }
+    .auth-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+    .auth-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .auth-logo-icon {
+      width: 44px; height: 44px; background: var(--grad-g); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 900; font-family: 'Bebas Neue', sans-serif;
+      box-shadow: 0 0 24px rgba(0,165,80,0.4);
+    }
+    .auth-logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1.5px; }
+    .auth-logo-sub { font-size: 10px; color: var(--green); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+
+    .auth-tabs {
+      display: flex; gap: 4px;
+      background: rgba(255,255,255,0.05); border-radius: 12px; padding: 4px; margin-bottom: 28px;
+    }
+    .auth-tab {
+      flex: 1; padding: 10px; border: none; background: transparent;
+      color: rgba(255,255,255,0.4); font-size: 14px; font-weight: 600;
+      border-radius: 9px; cursor: pointer; transition: all 0.2s; font-family: inherit;
+    }
+    .auth-tab.active { background: var(--grad-g); color: #fff; box-shadow: 0 4px 14px rgba(0,165,80,0.35); }
+
+    .auth-error {
+      background: rgba(255,59,59,0.1); border: 1px solid rgba(255,59,59,0.25);
+      border-radius: 10px; padding: 12px 16px; color: #ff6b6b; font-size: 13px;
+      margin-bottom: 18px; display: none;
+    }
+    .auth-error.show { display: block; }
+
+    .auth-field { margin-bottom: 18px; }
+    .auth-field label {
+      display: block; font-size: 11px; font-weight: 700;
+      color: rgba(255,255,255,0.4); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;
+    }
+    .auth-field input {
+      width: 100%; background: #1A1A1A; border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 13px 16px; color: #fff; font-size: 15px;
+      outline: none; transition: border-color 0.2s; font-family: inherit;
+    }
+    .auth-field input:focus { border-color: var(--green); }
+
+    .auth-submit {
+      width: 100%; background: var(--grad-g); border: none; border-radius: 12px;
+      padding: 15px; color: #fff; font-size: 15px; font-weight: 700;
+      cursor: pointer; letter-spacing: 0.5px; margin-top: 6px;
+      box-shadow: 0 8px 24px rgba(0,165,80,0.35); transition: all 0.2s; font-family: inherit;
+    }
+    .auth-submit:hover { transform: translateY(-1px); box-shadow: 0 10px 32px rgba(0,165,80,0.5); }
+    .auth-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .auth-success { text-align: center; padding: 8px 0 16px; }
+    .auth-success .s-icon { font-size: 52px; margin-bottom: 14px; }
+    .auth-success h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+    .auth-success p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    .auth-divider {
+      display: flex; align-items: center; gap: 12px; margin: 20px 0;
+    }
+    .auth-divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
+    .auth-divider-text { font-size: 11px; color: rgba(255,255,255,0.25); font-weight: 600; letter-spacing: 1px; }
+
     /* ─── ANIMATIONS ─── */
     .fade-up {
       opacity: 0;
@@ -976,6 +1109,10 @@
     <li><a href="#cta">Contact</a></li>
     <li><a href="#products" class="nav-cta">Shop Now</a></li>
   </ul>
+  <div id="navAuth" class="nav-auth">
+    <button class="btn-login" onclick="openAuth('login')">Login</button>
+    <button class="btn-signup-nav" onclick="openAuth('signup')">Sign Up</button>
+  </div>
   <div class="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
@@ -1601,6 +1738,187 @@
       nav.style.borderBottomColor = 'rgba(0,165,80,0.2)';
     }
   });
+</script>
+
+<!-- ─── AUTH MODAL ─── -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-modal">
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+
+    <div class="auth-logo">
+      <div class="auth-logo-icon">M</div>
+      <div>
+        <div class="auth-logo-name">MASS NUTRITION</div>
+        <div class="auth-logo-sub">Member Portal</div>
+      </div>
+    </div>
+
+    <div class="auth-tabs" id="authTabs">
+      <button class="auth-tab active" id="loginTab" onclick="switchAuthTab('login')">Login</button>
+      <button class="auth-tab" id="signupTab" onclick="switchAuthTab('signup')">Create Account</button>
+    </div>
+
+    <div class="auth-error" id="authError"></div>
+
+    <!-- Login -->
+    <div id="loginForm">
+      <div class="auth-field">
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="you@example.com" onkeydown="if(event.key==='Enter')window._authLogin()" />
+      </div>
+      <div class="auth-field">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" onkeydown="if(event.key==='Enter')window._authLogin()" />
+      </div>
+      <button class="auth-submit" id="loginBtn" onclick="window._authLogin()">Sign In →</button>
+      <div class="auth-divider">
+        <div class="auth-divider-line"></div>
+        <div class="auth-divider-text">NEW HERE?</div>
+        <div class="auth-divider-line"></div>
+      </div>
+      <div style="text-align:center;font-size:13px;color:rgba(255,255,255,0.35)">
+        <a href="#" onclick="switchAuthTab('signup');return false;" style="color:var(--green);font-weight:600;text-decoration:none">Create a free account</a>
+      </div>
+    </div>
+
+    <!-- Sign up -->
+    <div id="signupForm" style="display:none">
+      <div class="auth-field">
+        <label>Full Name</label>
+        <input type="text" id="signupName" placeholder="John Smith" />
+      </div>
+      <div class="auth-field">
+        <label>Email</label>
+        <input type="email" id="signupEmail" placeholder="you@example.com" />
+      </div>
+      <div class="auth-field">
+        <label>Password</label>
+        <input type="password" id="signupPassword" placeholder="Min. 6 characters" onkeydown="if(event.key==='Enter')window._authSignup()" />
+      </div>
+      <button class="auth-submit" id="signupBtn" onclick="window._authSignup()">Create Account →</button>
+    </div>
+
+    <!-- Success -->
+    <div id="authSuccess" class="auth-success" style="display:none">
+      <div class="s-icon">🎉</div>
+      <h3>You're in!</h3>
+      <p>Check your email to confirm your account,<br>then log back in.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openAuth(tab) {
+    document.getElementById('authOverlay').classList.add('open');
+    switchAuthTab(tab || 'login');
+    setTimeout(() => {
+      const el = document.getElementById(tab === 'signup' ? 'signupName' : 'loginEmail');
+      if (el) el.focus();
+    }, 120);
+  }
+  function closeAuth() {
+    document.getElementById('authOverlay').classList.remove('open');
+  }
+  document.getElementById('authOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeAuth();
+  });
+  function switchAuthTab(tab) {
+    document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+    document.getElementById('signupTab').classList.toggle('active', tab === 'signup');
+    document.getElementById('loginForm').style.display  = tab === 'login'  ? 'block' : 'none';
+    document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
+    document.getElementById('authSuccess').style.display = 'none';
+    document.getElementById('authTabs').style.display = 'flex';
+    document.getElementById('authError').className = 'auth-error';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuth(); });
+</script>
+
+<!-- ─── AUTH (Supabase) ─── -->
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+  const AUTH_URL = 'https://lbkpaibivjqszjqzfvqh.supabase.co'
+  const AUTH_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxia3BhaWJpdmpxc3pqcXpmdnFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NTUwMzksImV4cCI6MjA5NjMzMTAzOX0.rCyyZCaxDU_FRxe0zT7EYSDHJYC4SuyP6NkA9ZJZMBE'
+  const auth = createClient(AUTH_URL, AUTH_KEY)
+
+  function setNavUser(user) {
+    const name = user.user_metadata?.full_name || user.email.split('@')[0]
+    const initial = name[0].toUpperCase()
+    document.getElementById('navAuth').innerHTML = `
+      <div class="nav-user-info">
+        <div class="nav-user-avatar">${initial}</div>
+        <span class="nav-user-name">${name}</span>
+      </div>
+      <button class="btn-logout" onclick="window._authLogout()">Logout</button>
+    `
+  }
+
+  function resetNav() {
+    document.getElementById('navAuth').innerHTML = `
+      <button class="btn-login" onclick="openAuth('login')">Login</button>
+      <button class="btn-signup-nav" onclick="openAuth('signup')">Sign Up</button>
+    `
+  }
+
+  auth.auth.getSession().then(({ data: { session } }) => {
+    if (session) setNavUser(session.user)
+  })
+
+  auth.auth.onAuthStateChange((_e, session) => {
+    if (session) setNavUser(session.user)
+    else resetNav()
+  })
+
+  window._authLogin = async () => {
+    const email = document.getElementById('loginEmail').value.trim()
+    const password = document.getElementById('loginPassword').value
+    const btn = document.getElementById('loginBtn')
+    setAuthErr('')
+    if (!email || !password) { setAuthErr('Please enter your email and password'); return }
+    btn.disabled = true; btn.textContent = 'Signing in…'
+    const { error } = await auth.auth.signInWithPassword({ email, password })
+    if (error) {
+      setAuthErr(error.message === 'Invalid login credentials' ? 'Incorrect email or password' : error.message)
+      btn.disabled = false; btn.textContent = 'Sign In →'
+    } else {
+      closeAuth()
+      showToast('Welcome back! 💪')
+    }
+  }
+
+  window._authSignup = async () => {
+    const name = document.getElementById('signupName').value.trim()
+    const email = document.getElementById('signupEmail').value.trim()
+    const password = document.getElementById('signupPassword').value
+    const btn = document.getElementById('signupBtn')
+    setAuthErr('')
+    if (!name) { setAuthErr('Please enter your name'); return }
+    if (!email) { setAuthErr('Please enter your email'); return }
+    if (password.length < 6) { setAuthErr('Password must be at least 6 characters'); return }
+    btn.disabled = true; btn.textContent = 'Creating account…'
+    const { error } = await auth.auth.signUp({ email, password, options: { data: { full_name: name } } })
+    if (error) {
+      setAuthErr(error.message)
+      btn.disabled = false; btn.textContent = 'Create Account →'
+    } else {
+      document.getElementById('loginForm').style.display = 'none'
+      document.getElementById('signupForm').style.display = 'none'
+      document.getElementById('authSuccess').style.display = 'block'
+      document.getElementById('authTabs').style.display = 'none'
+    }
+  }
+
+  window._authLogout = async () => {
+    await auth.auth.signOut()
+    showToast('Signed out. See you next time! 👋')
+  }
+
+  function setAuthErr(msg) {
+    const el = document.getElementById('authError')
+    el.textContent = msg
+    el.className = 'auth-error' + (msg ? ' show' : '')
+  }
 </script>
 
 <!-- ─── CMS INTEGRATION ─── -->
