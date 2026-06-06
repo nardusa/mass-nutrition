@@ -989,22 +989,22 @@
   <div class="hero-diamond d3"></div>
 
   <div class="hero-content">
-    <div class="hero-badge">Premium Sports Nutrition</div>
+    <div class="hero-badge" id="cms-badge">Premium Sports Nutrition</div>
 
     <h1 class="hero-title">
-      <div>FUEL YOUR</div>
-      <div class="line-green">INNER</div>
-      <div class="line-yellow">CHAMPION</div>
+      <div id="cms-title-1">FUEL YOUR</div>
+      <div class="line-green" id="cms-title-2">INNER</div>
+      <div class="line-yellow" id="cms-title-3">CHAMPION</div>
     </h1>
 
-    <p class="hero-subtitle">
+    <p class="hero-subtitle" id="cms-subtitle">
       Born from the relentless spirit of Brazilian athletic culture.
       Science-backed nutrition engineered for peak performance,
       maximum gains, and unstoppable results.
     </p>
 
     <div class="hero-actions">
-      <a href="#products" class="btn-primary">
+      <a href="#products" class="btn-primary" id="cms-cta">
         Shop All Products
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
       </a>
@@ -1336,20 +1336,20 @@
         <div class="brazil-diamond-shape"></div>
         <div class="brand-grid">
           <div class="brand-grid-item">
-            <div class="bgi-num">2010</div>
-            <div class="bgi-label">Founded in São Paulo</div>
+            <div class="bgi-num" id="cms-stat-founded">2010</div>
+            <div class="bgi-label">Founded</div>
           </div>
           <div class="brand-grid-item">
-            <div class="bgi-num">120+</div>
-            <div class="bgi-label">SKUs in Range</div>
+            <div class="bgi-num" id="cms-stat-products">120+</div>
+            <div class="bgi-label">Products</div>
           </div>
           <div class="brand-grid-item">
-            <div class="bgi-num">50K</div>
+            <div class="bgi-num" id="cms-stat-customers">50K</div>
             <div class="bgi-label">Happy Athletes</div>
           </div>
           <div class="brand-grid-item">
-            <div class="bgi-num">15+</div>
-            <div class="bgi-label">Countries Shipping</div>
+            <div class="bgi-num" id="cms-stat-countries">15+</div>
+            <div class="bgi-label">Countries</div>
           </div>
         </div>
       </div>
@@ -1358,7 +1358,7 @@
     <div class="brand-text fade-up">
       <div class="section-label">Our Story</div>
       <h2 class="section-title">BORN FROM THE<br/><span style="color:var(--green)">SPIRIT OF</span><br/><span style="color:var(--yellow)">BRAZIL</span></h2>
-      <p class="section-subtitle">Mass Nutrition was founded in São Paulo with a single mission: create supplements that match the relentless intensity of Brazilian athletes. Today we fuel champions worldwide.</p>
+      <p class="section-subtitle" id="cms-about-text">Mass Nutrition was founded in São Paulo with a single mission: create supplements that match the relentless intensity of Brazilian athletes. Today we fuel champions worldwide.</p>
 
       <div class="brand-points">
         <div class="brand-point">
@@ -1601,6 +1601,124 @@
       nav.style.borderBottomColor = 'rgba(0,165,80,0.2)';
     }
   });
+</script>
+
+<!-- ─── CMS INTEGRATION ─── -->
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+  const SUPABASE_URL  = 'https://lbkpaibivjqszjqzfvqh.supabase.co'
+  const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxia3BhaWJpdmpxc3pqcXpmdnFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkxNTIyOTcsImV4cCI6MjA2NDcyODI5N30.REPLACE_WITH_FULL_KEY'
+  const CLIENT_ID     = ''  // ← paste your Mass Nutrition client ID here after adding it in the CMS
+
+  const COLOR_THEMES = ['bg-green','bg-red','bg-blue','bg-teal','bg-yellow','bg-purple']
+  const BADGE_CLASS  = { 'New':'badge-new','Hot':'badge-hot','🔥 Hot':'badge-hot','Sale':'badge-sale','Best Seller':'badge-best','Best seller':'badge-best' }
+
+  function setText(id, val) {
+    const el = document.getElementById(id)
+    if (el && val) el.textContent = val
+  }
+
+  function setColors(primary, accent) {
+    const r = document.documentElement
+    r.style.setProperty('--green',  primary)
+    r.style.setProperty('--yellow', accent)
+    r.style.setProperty('--grad-g', `linear-gradient(135deg,${primary} 0%,${darken(primary,20)} 100%)`)
+  }
+
+  function darken(hex, pct) {
+    let n = parseInt(hex.replace('#',''), 16)
+    const r = Math.max(0, (n>>16) - pct)
+    const g = Math.max(0, ((n>>8)&0xff) - pct)
+    const b = Math.max(0, (n&0xff) - pct)
+    return '#' + [r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('')
+  }
+
+  function renderProducts(products) {
+    const grid = document.getElementById('productsGrid')
+    if (!grid || !products.length) return
+    grid.innerHTML = products.map((p, i) => `
+      <div class="product-card fade-up" data-category="${(p.category||'').toLowerCase().replace(/[^a-z]/g,'')}">
+        <div class="product-img">
+          <div class="product-img-bg ${COLOR_THEMES[i % COLOR_THEMES.length]}"></div>
+          ${p.badge ? `<div class="product-badge ${BADGE_CLASS[p.badge]||'badge-new'}">${p.badge}</div>` : ''}
+          <div class="mini-can">
+            <div class="mini-can-body" style="background:linear-gradient(160deg,#111,#222);">
+              <div class="mini-can-accent top" style="background:var(--green)"></div>
+              <div class="mini-can-accent bottom" style="background:var(--yellow)"></div>
+              <div class="mini-can-name">
+                <div class="mini-can-brand">MASS</div>
+                <div class="mini-can-title" style="color:var(--green)">${(p.name||'').split(' ').slice(0,2).join('<br/>')}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-category">${p.category||''}</div>
+          <div class="product-name">${p.name||''}</div>
+          <div class="product-desc">${p.description||''}</div>
+          <div class="product-macros">
+            ${p.stat1_val ? `<div class="macro-stat"><div class="macro-val mv-green">${p.stat1_val}</div><div class="macro-key">${p.stat1_key}</div></div>` : ''}
+            ${p.stat2_val ? `<div class="macro-stat"><div class="macro-val mv-yellow">${p.stat2_val}</div><div class="macro-key">${p.stat2_key}</div></div>` : ''}
+            ${p.stat3_val ? `<div class="macro-stat"><div class="macro-val mv-blue">${p.stat3_val}</div><div class="macro-key">${p.stat3_key}</div></div>` : ''}
+          </div>
+          <div class="product-footer">
+            <div class="product-price">$${Number(p.price).toFixed(2)}</div>
+            <button class="btn-add" onclick="addToCart(this)">+ Add to Cart</button>
+          </div>
+        </div>
+      </div>`).join('')
+
+    // Re-run fade observer on new cards
+    const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') }), { threshold: 0.15 })
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el))
+  }
+
+  async function loadCMS() {
+    if (!CLIENT_ID) return  // No client wired up yet
+    const db = createClient(SUPABASE_URL, SUPABASE_KEY)
+
+    const [{ data: content }, { data: products }] = await Promise.all([
+      db.from('site_content').select('*').eq('client_id', CLIENT_ID).single(),
+      db.from('products').select('*').eq('client_id', CLIENT_ID).order('display_order')
+    ])
+
+    if (content) {
+      // Colors
+      setColors(content.primary_color || '#00A550', content.accent_color || '#FFD700')
+      // Hero
+      setText('cms-badge',    content.hero_badge)
+      setText('cms-title-1',  content.hero_title_1)
+      setText('cms-title-2',  content.hero_title_2)
+      setText('cms-title-3',  content.hero_title_3)
+      setText('cms-subtitle', content.hero_subtitle)
+      const cta = document.getElementById('cms-cta')
+      if (cta && content.hero_cta) cta.childNodes[0].textContent = content.hero_cta + '\n        '
+      // About
+      setText('cms-about-text',     content.about_text)
+      setText('cms-stat-founded',   content.stat_founded)
+      setText('cms-stat-products',  content.stat_products)
+      setText('cms-stat-customers', content.stat_customers)
+      setText('cms-stat-countries', content.stat_countries)
+      // Company name + title
+      if (content.company_name) {
+        document.querySelectorAll('.nav-logo-text').forEach(el => {
+          const parts = content.company_name.split(' ')
+          el.innerHTML = parts.length > 1
+            ? `${parts[0]} <span>${parts.slice(1).join(' ')}</span>`
+            : content.company_name
+        })
+        document.title = `${content.company_name} | ${content.tagline || 'Fuel Your Potential'}`
+      }
+      if (content.tagline) {
+        document.querySelectorAll('.footer-tagline').forEach(el => el.textContent = content.tagline)
+      }
+    }
+
+    if (products && products.length) renderProducts(products)
+  }
+
+  loadCMS()
 </script>
 </body>
 </html>
