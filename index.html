@@ -2472,9 +2472,9 @@
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
-  const SUPABASE_URL  = 'https://lbkpaibivjqszjqzfvqh.supabase.co'
-  const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxia3BhaWJpdmpxc3pqcXpmdnFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NTUwMzksImV4cCI6MjA5NjMzMTAzOX0.rCyyZCaxDU_FRxe0zT7EYSDHJYC4SuyP6NkA9ZJZMBE'
-  const CLIENT_ID     = 'eee52f6a-7646-4d9e-9fbe-a5e0f69b58e8'
+  const SUPABASE_URL = 'https://lbkpaibivjqszjqzfvqh.supabase.co'
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxia3BhaWJpdmpxc3pqcXpmdnFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NTUwMzksImV4cCI6MjA5NjMzMTAzOX0.rCyyZCaxDU_FRxe0zT7EYSDHJYC4SuyP6NkA9ZJZMBE'
+  const CLIENT_SLUG  = 'mass-nutrition'
 
   const COLOR_THEMES = ['bg-green','bg-red','bg-blue','bg-teal','bg-yellow','bg-purple']
   const BADGE_CLASS  = { 'New':'badge-new','Hot':'badge-hot','🔥 Hot':'badge-hot','Sale':'badge-sale','Best Seller':'badge-best','Best seller':'badge-best' }
@@ -2486,9 +2486,11 @@
 
   function setColors(primary, accent) {
     const r = document.documentElement
-    r.style.setProperty('--green',  primary)
-    r.style.setProperty('--yellow', accent)
-    r.style.setProperty('--grad-g', `linear-gradient(135deg,${primary} 0%,${darken(primary,20)} 100%)`)
+    r.style.setProperty('--green',   primary)
+    r.style.setProperty('--green-d', darken(primary, 20))
+    r.style.setProperty('--yellow',  accent)
+    r.style.setProperty('--grad-g',  `linear-gradient(135deg,${primary} 0%,${darken(primary,20)} 100%)`)
+    r.style.setProperty('--grad-y',  `linear-gradient(135deg,${accent} 0%,${darken(accent,20)} 100%)`)
   }
 
   function darken(hex, pct) {
@@ -2534,22 +2536,24 @@
         </div>
       </div>`).join('')
 
-    // Re-run fade observer on new cards
     const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') }), { threshold: 0.15 })
     document.querySelectorAll('.fade-up').forEach(el => obs.observe(el))
   }
 
   async function loadCMS() {
-    if (!CLIENT_ID) return  // No client wired up yet
     const db = createClient(SUPABASE_URL, SUPABASE_KEY)
 
+    // Look up client by slug — no hardcoded UUID needed
+    const { data: client } = await db.from('clients').select('id').eq('slug', CLIENT_SLUG).single()
+    if (!client) return
+
     const [{ data: content }, { data: products }] = await Promise.all([
-      db.from('site_content').select('*').eq('client_id', CLIENT_ID).single(),
-      db.from('products').select('*').eq('client_id', CLIENT_ID).order('display_order')
+      db.from('site_content').select('*').eq('client_id', client.id).single(),
+      db.from('products').select('*').eq('client_id', client.id).order('display_order')
     ])
 
     if (content) {
-      // Colors
+      // Colors — update all CSS vars so every element picks them up
       setColors(content.primary_color || '#00A550', content.accent_color || '#FFD700')
       // Hero
       setText('cms-badge',    content.hero_badge)
@@ -2558,14 +2562,14 @@
       setText('cms-title-3',  content.hero_title_3)
       setText('cms-subtitle', content.hero_subtitle)
       const cta = document.getElementById('cms-cta')
-      if (cta && content.hero_cta) cta.childNodes[0].textContent = content.hero_cta + '\n        '
+      if (cta && content.hero_cta) cta.childNodes[0].textContent = content.hero_cta + ' '
       // About
       setText('cms-about-text',     content.about_text)
       setText('cms-stat-founded',   content.stat_founded)
       setText('cms-stat-products',  content.stat_products)
       setText('cms-stat-customers', content.stat_customers)
       setText('cms-stat-countries', content.stat_countries)
-      // Company name + title
+      // Company name in nav + footer
       if (content.company_name) {
         document.querySelectorAll('.nav-logo-text').forEach(el => {
           const parts = content.company_name.split(' ')
@@ -2578,6 +2582,17 @@
       if (content.tagline) {
         document.querySelectorAll('.footer-tagline').forEach(el => el.textContent = content.tagline)
       }
+      // Social links
+      const socials = [
+        { key: 'instagram', title: 'Instagram' },
+        { key: 'tiktok',    title: 'TikTok' },
+        { key: 'youtube',   title: 'YouTube' },
+        { key: 'facebook',  title: 'Facebook' },
+      ]
+      const socialEls = document.querySelectorAll('.social-link')
+      socials.forEach((s, i) => {
+        if (content[s.key] && socialEls[i]) socialEls[i].href = content[s.key]
+      })
     }
 
     if (products && products.length) renderProducts(products)
