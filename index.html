@@ -2509,7 +2509,9 @@
         <div class="product-img">
           <div class="product-img-bg ${COLOR_THEMES[i % COLOR_THEMES.length]}"></div>
           ${p.badge ? `<div class="product-badge ${BADGE_CLASS[p.badge]||'badge-new'}">${p.badge}</div>` : ''}
-          <div class="mini-can">
+          ${p.image_url
+            ? `<img src="${p.image_url}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;" />`
+            : `<div class="mini-can">
             <div class="mini-can-body" style="background:linear-gradient(160deg,#111,#222);">
               <div class="mini-can-accent top" style="background:var(--green)"></div>
               <div class="mini-can-accent bottom" style="background:var(--yellow)"></div>
@@ -2518,7 +2520,8 @@
                 <div class="mini-can-title" style="color:var(--green)">${(p.name||'').split(' ').slice(0,2).join('<br/>')}</div>
               </div>
             </div>
-          </div>
+          </div>`
+          }
         </div>
         <div class="product-info">
           <div class="product-category">${p.category||''}</div>
