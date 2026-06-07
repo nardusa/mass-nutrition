@@ -2040,9 +2040,21 @@
 
   <div class="footer-bottom">
     <div class="footer-copy">© 2024 <span>Mass Nutrition</span>. All rights reserved. Made with 🇧🇷 passion.</div>
-    <div class="footer-flags">
-      <div class="flag-badge"><div class="flag-dot">🇧🇷</div> Brasil</div>
-      <div class="flag-badge"><div class="flag-dot">🌍</div> Global Shipping</div>
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div class="footer-flags">
+        <div class="flag-badge"><div class="flag-dot">🇧🇷</div> Brasil</div>
+        <div class="flag-badge"><div class="flag-dot">🌍</div> Global Shipping</div>
+      </div>
+      <a id="manageSiteBtn" href="#" target="_blank" style="
+        display:none; align-items:center; gap:6px;
+        font-size:12px; color:rgba(255,255,255,0.3); text-decoration:none;
+        padding:6px 12px; border-radius:8px;
+        border:1px solid rgba(255,255,255,0.08);
+        transition:all 0.2s;
+      " onmouseover="this.style.color='var(--green)';this.style.borderColor='rgba(0,165,80,0.3)'"
+         onmouseout="this.style.color='rgba(255,255,255,0.3)';this.style.borderColor='rgba(255,255,255,0.08)'">
+        ⚙ Manage Site
+      </a>
     </div>
   </div>
 </footer>
@@ -2546,9 +2558,21 @@
   async function loadCMS() {
     const db = createClient(SUPABASE_URL, SUPABASE_KEY)
 
-    // Look up client by slug — no hardcoded UUID needed
-    const { data: client } = await db.from('clients').select('id').eq('slug', CLIENT_SLUG).single()
+    // Look up client by slug — fetch email too so we can show the owner the Manage Site button
+    const { data: client } = await db.from('clients').select('id, email, slug').eq('slug', CLIENT_SLUG).single()
     if (!client) return
+
+    // Show "Manage Site" button only when the site owner is logged in
+    const manageBtn = document.getElementById('manageSiteBtn')
+    if (manageBtn) {
+      manageBtn.href = `https://mj-agency.vercel.app/editor`
+      db.auth.getSession().then(({ data: { session } }) => {
+        if (session?.user?.email === client.email) manageBtn.style.display = 'flex'
+      })
+      db.auth.onAuthStateChange((_e, session) => {
+        manageBtn.style.display = session?.user?.email === client.email ? 'flex' : 'none'
+      })
+    }
 
     const [{ data: content }, { data: products }] = await Promise.all([
       db.from('site_content').select('*').eq('client_id', client.id).single(),
