@@ -2565,7 +2565,7 @@
     // Show "Manage Site" button only when the site owner is logged in
     const manageBtn = document.getElementById('manageSiteBtn')
     if (manageBtn) {
-      manageBtn.href = `https://mj-agency.vercel.app/editor`
+      manageBtn.href = `https://mj-agency.vercel.app/login?client=${CLIENT_SLUG}`
       async function checkOwner(session) {
         if (!session) { manageBtn.style.display = 'none'; return }
         const { data: profile } = await db.from('profiles').select('role').eq('id', session.user.id).single()
