@@ -1046,11 +1046,10 @@
     .checkout-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.75);
       backdrop-filter: blur(6px);
-      z-index: 1200; display: flex; align-items: center; justify-content: center;
-      padding: 20px; opacity: 0; pointer-events: none;
-      transition: opacity .3s;
+      z-index: 1200; display: none; align-items: center; justify-content: center;
+      padding: 20px;
     }
-    .checkout-overlay.open { opacity: 1; pointer-events: all; }
+    .checkout-overlay.open { display: flex; }
     .checkout-modal {
       background: #0D1117;
       border: 1px solid rgba(0,165,80,0.2);
@@ -1058,10 +1057,7 @@
       width: 100%; max-width: 900px;
       max-height: 90vh; overflow-y: auto;
       box-shadow: 0 30px 80px rgba(0,0,0,0.7);
-      transform: translateY(20px) scale(.98);
-      transition: transform .3s;
     }
-    .checkout-overlay.open .checkout-modal { transform: none; }
     .checkout-header {
       display: flex; align-items: center; justify-content: space-between;
       padding: 24px 28px; border-bottom: 1px solid rgba(255,255,255,0.07);
@@ -2129,29 +2125,29 @@
     document.getElementById('cartDrawer').classList.remove('open');
   }
 
-  function openCheckout() {
+  window.openCheckout = function() {
+    if (!cart.length) return;
     closeCart();
     const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
-    document.getElementById('checkoutItems').innerHTML = cart.map(item => `
-      <div class="co-item">
-        <div class="co-item-icon">💪</div>
-        <div class="co-item-info">
-          <div class="co-item-name">${item.name}</div>
-          <div class="co-item-qty">Qty: ${item.qty}</div>
-        </div>
-        <div class="co-item-price">$${(item.price * item.qty).toFixed(2)}</div>
-      </div>
-    `).join('');
+    let itemsHTML = '';
+    cart.forEach(function(item) {
+      itemsHTML += '<div class="co-item">' +
+        '<div class="co-item-icon" style="background:linear-gradient(135deg,' + (item.color||'#00A550') + ',' + (item.color2||'#007A3A') + ')"><svg width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2h-4"/></svg></div>' +
+        '<div class="co-item-info"><div class="co-item-name">' + item.name + '</div><div class="co-item-qty">Qty: ' + item.qty + '</div></div>' +
+        '<div class="co-item-price" style="color:' + (item.color||'#00A550') + '">$' + (item.price * item.qty).toFixed(2) + '</div>' +
+        '</div>';
+    });
+    document.getElementById('checkoutItems').innerHTML = itemsHTML;
     document.getElementById('co-subtotal').textContent = '$' + subtotal.toFixed(2);
     document.getElementById('co-total').textContent = '$' + subtotal.toFixed(2);
     document.getElementById('checkoutStep1').style.display = 'block';
     document.getElementById('checkoutStep2').style.display = 'none';
     document.getElementById('checkoutOverlay').classList.add('open');
-  }
+  };
 
-  function closeCheckout() {
+  window.closeCheckout = function() {
     document.getElementById('checkoutOverlay').classList.remove('open');
-  }
+  };
 
   function fmtCard(input) {
     let v = input.value.replace(/\D/g, '').slice(0, 16);
@@ -2164,7 +2160,7 @@
     input.value = v;
   }
 
-  function placeOrder() {
+  window.placeOrder = function() {
     const fname = document.getElementById('co-fname').value.trim();
     const email = document.getElementById('co-email').value.trim();
     const address = document.getElementById('co-address').value.trim();
@@ -2175,10 +2171,12 @@
     }
     const orderNum = 'MN-' + Math.random().toString(36).slice(2,8).toUpperCase();
     document.getElementById('confirmMsg').innerHTML =
-      `<strong>Order #${orderNum}</strong> confirmed for <strong>${fname}</strong>.<br>Confirmation sent to ${email}`;
+      '<strong>Order #' + orderNum + '</strong> confirmed for <strong>' + fname + '</strong>.<br>Confirmation sent to ' + email;
     document.getElementById('checkoutStep1').style.display = 'none';
     document.getElementById('checkoutStep2').style.display = 'block';
-  }
+  };
+
+  window.clearCart = function() { cart = []; saveCart(); };
 
   // Init cart badge on load
   updateCartUI();
