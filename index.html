@@ -2566,12 +2566,13 @@
     const manageBtn = document.getElementById('manageSiteBtn')
     if (manageBtn) {
       manageBtn.href = `https://mj-agency.vercel.app/editor`
-      db.auth.getSession().then(({ data: { session } }) => {
-        if (session?.user?.email === client.email) manageBtn.style.display = 'flex'
-      })
-      db.auth.onAuthStateChange((_e, session) => {
-        manageBtn.style.display = session?.user?.email === client.email ? 'flex' : 'none'
-      })
+      async function checkOwner(session) {
+        if (!session) { manageBtn.style.display = 'none'; return }
+        const { data: profile } = await db.from('profiles').select('role').eq('id', session.user.id).single()
+        manageBtn.style.display = profile?.role === 'owner' ? 'flex' : 'none'
+      }
+      db.auth.getSession().then(({ data: { session } }) => checkOwner(session))
+      db.auth.onAuthStateChange((_e, session) => checkOwner(session))
     }
 
     const [{ data: content }, { data: products }] = await Promise.all([
