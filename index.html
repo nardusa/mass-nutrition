@@ -2558,8 +2558,8 @@
   async function loadCMS() {
     const db = createClient(SUPABASE_URL, SUPABASE_KEY)
 
-    // Look up client by slug — fetch email too so we can show the owner the Manage Site button
-    const { data: client } = await db.from('clients').select('id, email, slug').eq('slug', CLIENT_SLUG).single()
+    // Look up client by business_name — fetch email too so we can show the owner the Manage Site button
+    const { data: client } = await db.from('clients').select('id, email, slug').eq('business_name', 'Mass Nutrition').single()
     if (!client) return
 
     // Show "Manage Site" button only when the site owner is logged in
