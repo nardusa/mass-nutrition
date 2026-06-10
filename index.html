@@ -128,7 +128,7 @@
       opacity: 1;
       pointer-events: all;
     }
-    @media (min-width: 769px) { .mobile-menu { display: none !important; } }
+    @media (min-width: 1025px) { .mobile-menu { display: none !important; } }
 
     .mobile-menu-link {
       display: flex; align-items: center; justify-content: space-between;
@@ -968,6 +968,15 @@
       .brand-inner { grid-template-columns: 1fr; }
       .hero-visual { display: none; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
+      /* Nav — hide links and auth, show hamburger on tablet */
+      .nav-links { display: none; }
+      .nav-auth { display: none; }
+      .hamburger { display: flex; }
+      /* Section spacing */
+      section { padding: 80px 5%; }
+      /* Grids */
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     /* ─── CART BUTTON ─── */
@@ -1161,18 +1170,25 @@
 
     @media (max-width: 768px) {
       nav { padding: 0 20px; }
-      .nav-links { display: none; }
-      .nav-auth { display: none; }
-      .hamburger { display: flex; }
-      section { padding: 80px 20px; }
+      section { padding: 60px 20px; }
       .footer-grid { grid-template-columns: 1fr; gap: 40px; }
-      .hero-stats { gap: 24px; }
-      .brand-inner { gap: 48px; }
+      .hero-stats { gap: 20px; flex-wrap: wrap; }
+      .brand-inner { gap: 40px; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .hero-actions { flex-direction: column; gap: 12px; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+      .email-form { flex-direction: column; align-items: stretch; }
+      .email-input { width: 100%; }
+      .checkout-body { grid-template-columns: 1fr; }
+      .checkout-left { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
     }
 
     @media (max-width: 480px) {
       .products-grid { grid-template-columns: 1fr; }
       .testimonials-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 16px; }
+      .stat-num { font-size: 32px; }
     }
 
     /* ─── AUTH NAV ─── */
