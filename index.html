@@ -1343,6 +1343,19 @@
     .fade-up:nth-child(5) { transition-delay: 0.4s; }
     .fade-up:nth-child(6) { transition-delay: 0.5s; }
   </style>
+  <script>
+    // Apply cached theme instantly — eliminates flash on every load after the first
+    try {
+      var _t = JSON.parse(localStorage.getItem('mn-theme'));
+      if (_t && _t.primary) {
+        var _r = document.documentElement;
+        _r.style.setProperty('--green',  _t.primary);
+        _r.style.setProperty('--green-d', _t.dark);
+        _r.style.setProperty('--grad-g', 'linear-gradient(135deg,' + _t.primary + ' 0%,' + _t.dark + ' 100%)');
+        if (_t.accent) _r.style.setProperty('--yellow', _t.accent);
+      }
+    } catch(e) {}
+  </script>
 </head>
 <body>
 
@@ -2514,11 +2527,13 @@
 
   function setColors(primary, accent) {
     const r = document.documentElement
+    const dark = darken(primary, 20)
     r.style.setProperty('--green',   primary)
-    r.style.setProperty('--green-d', darken(primary, 20))
+    r.style.setProperty('--green-d', dark)
     r.style.setProperty('--yellow',  accent)
-    r.style.setProperty('--grad-g',  `linear-gradient(135deg,${primary} 0%,${darken(primary,20)} 100%)`)
+    r.style.setProperty('--grad-g',  `linear-gradient(135deg,${primary} 0%,${dark} 100%)`)
     r.style.setProperty('--grad-y',  `linear-gradient(135deg,${accent} 0%,${darken(accent,20)} 100%)`)
+    try { localStorage.setItem('mn-theme', JSON.stringify({ primary, accent, dark })) } catch(e) {}
   }
 
   function darken(hex, pct) {
