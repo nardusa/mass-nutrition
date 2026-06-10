@@ -8,7 +8,7 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --green: #00A550; --green-d: #007A3A;
+      --brand: #00A550; --brand-d: #007A3A;
       --yellow: #FFD700; --red: #E53E3E; --blue: #3B82F6;
       --purple: #8B5CF6; --orange: #F97316; --teal: #14B8A6;
       --dark: #0A0A0A; --dark2: #111; --dark3: #1A1A1A;
@@ -18,7 +18,7 @@
     body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--white); overflow-x: hidden; }
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--dark2); }
-    ::-webkit-scrollbar-thumb { background: var(--green); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: var(--brand); border-radius: 3px; }
 
     /* ── NAV ── */
     nav {
@@ -26,15 +26,16 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 5%; height: 72px;
       background: rgba(10,10,10,0.95); backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(0,165,80,0.2);
+      border-bottom: 1px solid rgba(var(--brand-rgb),0.2);
     }
+    .nav-border { border-bottom-color: color-mix(in srgb, var(--brand) 20%, transparent) !important; }
     .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .nav-logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg,#00A550,#007A3A); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue'; font-size: 20px; color: #fff; }
+    .nav-logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--brand), var(--brand-d)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue'; font-size: 20px; color: #fff; box-shadow: 0 0 20px color-mix(in srgb, var(--brand) 40%, transparent); }
     .nav-logo-text { font-family: 'Bebas Neue'; font-size: 22px; letter-spacing: 2px; color: #fff; }
-    .nav-logo-text span { color: var(--green); }
+    .nav-logo-text span { color: var(--brand); }
     .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
     .nav-links a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 14px; font-weight: 500; transition: color .2s; }
-    .nav-links a:hover, .nav-links a.active { color: var(--green); }
+    .nav-links a:hover, .nav-links a.active { color: var(--brand); }
     .nav-right { display: flex; align-items: center; gap: 12px; }
     .nav-cart-btn {
       position: relative; background: rgba(255,255,255,0.07);
@@ -43,10 +44,10 @@
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; transition: all .2s;
     }
-    .nav-cart-btn:hover { background: rgba(0,165,80,0.15); border-color: rgba(0,165,80,0.4); }
+    .nav-cart-btn:hover { background: color-mix(in srgb, var(--brand) 15%, transparent); border-color: color-mix(in srgb, var(--brand) 40%, transparent); }
     .cart-badge {
       position: absolute; top: -6px; right: -6px;
-      background: var(--green); color: #fff; font-size: 10px; font-weight: 800;
+      background: var(--brand); color: #fff; font-size: 10px; font-weight: 800;
       width: 18px; height: 18px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       border: 2px solid var(--dark);
@@ -55,12 +56,12 @@
     /* ── PAGE HERO ── */
     .page-hero {
       padding: 120px 5% 60px;
-      background: linear-gradient(180deg, rgba(0,165,80,0.06) 0%, transparent 100%);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--brand) 6%, transparent) 0%, transparent 100%);
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .page-hero-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--green); margin-bottom: 12px; }
+    .page-hero-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--brand); margin-bottom: 12px; }
     .page-hero h1 { font-family: 'Bebas Neue'; font-size: clamp(48px,8vw,90px); letter-spacing: 3px; line-height: 1; margin-bottom: 16px; }
-    .page-hero h1 span { color: var(--green); }
+    .page-hero h1 span { color: var(--brand); }
     .page-hero p { font-size: 16px; color: rgba(255,255,255,0.5); max-width: 540px; line-height: 1.7; }
 
     /* ── FILTERS ── */
@@ -70,8 +71,8 @@
       border: 1.5px solid rgba(255,255,255,0.1); background: none; color: rgba(255,255,255,0.5);
       cursor: pointer; transition: all .2s; letter-spacing: .3px;
     }
-    .filter-pill:hover { border-color: var(--green); color: var(--green); }
-    .filter-pill.active { background: var(--green); border-color: var(--green); color: #fff; }
+    .filter-pill:hover { border-color: var(--brand); color: var(--brand); }
+    .filter-pill.active { background: var(--brand); border-color: var(--brand); color: #fff; }
     .filter-count { margin-left: auto; font-size: 13px; color: rgba(255,255,255,0.3); font-weight: 600; }
 
     /* ── GRID ── */
@@ -93,6 +94,9 @@
       position: absolute; inset: 0;
       opacity: .18;
     }
+    .sup-card-img img.product-photo {
+      width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 1;
+    }
     .can-visual {
       position: relative; z-index: 1;
       width: 90px; height: 150px;
@@ -112,52 +116,56 @@
       font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px;
       padding: 4px 10px; border-radius: 50px;
     }
-    .badge-new { background: var(--green); color: #fff; }
+    .badge-new { background: var(--brand); color: #fff; }
     .badge-hot { background: var(--red); color: #fff; }
     .badge-best { background: var(--yellow); color: #000; }
     .badge-sale { background: var(--orange); color: #fff; }
 
     .sup-card-body { padding: 20px; }
-    .sup-cat { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 6px; }
+    .sup-cat { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 6px; color: var(--brand); }
     .sup-name { font-size: 17px; font-weight: 800; margin-bottom: 8px; line-height: 1.2; }
     .sup-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; margin-bottom: 14px; }
     .sup-macros { display: flex; gap: 10px; margin-bottom: 16px; }
     .sup-macro { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 8px 10px; flex: 1; text-align: center; }
-    .sup-macro-val { font-size: 16px; font-weight: 800; line-height: 1; margin-bottom: 3px; }
+    .sup-macro-val { font-size: 16px; font-weight: 800; line-height: 1; margin-bottom: 3px; color: var(--brand); }
     .sup-macro-key { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: rgba(255,255,255,0.4); }
     .sup-footer { display: flex; align-items: center; justify-content: space-between; }
-    .sup-price { font-size: 22px; font-weight: 900; }
+    .sup-price { font-size: 22px; font-weight: 900; color: var(--brand); }
     .sup-price span { font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.35); margin-left: 4px; }
     .btn-add-sup {
       padding: 10px 20px; border-radius: 10px; border: none;
       font-size: 13px; font-weight: 700; cursor: pointer;
       transition: all .2s; letter-spacing: .3px;
       display: flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-d));
+      color: #fff;
+      box-shadow: 0 4px 14px color-mix(in srgb, var(--brand) 40%, transparent);
     }
+    .btn-add-sup:hover { opacity: 0.88; }
 
     /* ── CART DRAWER ── */
     .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1100; opacity: 0; pointer-events: none; transition: opacity .3s; }
     .cart-overlay.open { opacity: 1; pointer-events: all; }
-    .cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 420px; max-width: 95vw; background: #0D1117; border-left: 1px solid rgba(0,165,80,0.15); z-index: 1101; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: -20px 0 60px rgba(0,0,0,0.5); }
+    .cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 420px; max-width: 95vw; background: #0D1117; border-left: 1px solid color-mix(in srgb, var(--brand) 15%, transparent); z-index: 1101; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: -20px 0 60px rgba(0,0,0,0.5); }
     .cart-drawer.open { transform: translateX(0); }
     .cart-header { display: flex; align-items: center; justify-content: space-between; padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.07); }
     .cart-close { background: rgba(255,255,255,0.07); border: none; color: rgba(255,255,255,0.6); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: background .2s; }
     .cart-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
     .cart-items { flex: 1; overflow-y: auto; padding: 16px; }
     .cart-item { display: flex; align-items: center; gap: 14px; padding: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; margin-bottom: 10px; }
-    .cart-item-icon { width: 52px; height: 52px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .cart-item-icon { width: 52px; height: 52px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: linear-gradient(135deg, var(--brand), var(--brand-d)); }
     .cart-item-info { flex: 1; min-width: 0; }
     .cart-item-name { font-size: 14px; font-weight: 700; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .cart-item-price { font-size: 13px; font-weight: 700; }
+    .cart-item-price { font-size: 13px; font-weight: 700; color: var(--brand); }
     .cart-item-qty { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.07); border-radius: 8px; padding: 4px; }
     .qty-btn { width: 26px; height: 26px; border-radius: 6px; border: none; background: rgba(255,255,255,0.08); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s; }
-    .qty-btn:hover { background: var(--green); }
+    .qty-btn:hover { background: var(--brand); }
     .qty-num { font-size: 14px; font-weight: 700; min-width: 20px; text-align: center; }
     .cart-item-remove { background: none; border: none; color: rgba(255,255,255,0.25); cursor: pointer; font-size: 16px; padding: 4px; transition: color .2s; }
     .cart-item-remove:hover { color: #ef4444; }
     .cart-footer { padding: 20px 24px; border-top: 1px solid rgba(255,255,255,0.07); }
     .cart-subtotal { display: flex; justify-content: space-between; font-size: 16px; font-weight: 800; margin-bottom: 8px; }
-    .btn-checkout { width: 100%; padding: 14px; background: linear-gradient(135deg,#00A550,#007A3A); color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity .2s; box-shadow: 0 6px 20px rgba(0,165,80,0.35); }
+    .btn-checkout { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--brand), var(--brand-d)); color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity .2s; box-shadow: 0 6px 20px color-mix(in srgb, var(--brand) 35%, transparent); }
     .btn-checkout:hover { opacity: .88; }
     .btn-continue { width: 100%; padding: 12px; background: none; color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 10px; transition: all .2s; }
     .btn-continue:hover { border-color: rgba(255,255,255,0.25); color: #fff; }
@@ -175,9 +183,9 @@
 </head>
 <body>
 
-<nav>
+<nav id="mainNav">
   <a class="nav-logo" href="index.html">
-    <div class="nav-logo-icon">M</div>
+    <div class="nav-logo-icon" id="navLogoIcon">M</div>
     <div class="nav-logo-text">MASS <span>NUTRITION</span></div>
   </a>
   <ul class="nav-links">
@@ -197,21 +205,18 @@
 <div class="page-hero">
   <div class="page-hero-label">Full Catalog</div>
   <h1>ALL <span>SUPPLEMENTS</span></h1>
-  <p>Every product in the Mass Nutrition lineup — scientifically formulated, elite-grade ingredients, results you'll feel from day one.</p>
+  <p id="heroSubtitle">Every product in the Mass Nutrition lineup — scientifically formulated, elite-grade ingredients, results you'll feel from day one.</p>
 </div>
 
-<div class="filters">
+<div class="filters" id="filtersBar">
   <button class="filter-pill active" onclick="filterCat('all',this)">All</button>
-  <button class="filter-pill" onclick="filterCat('protein',this)">Protein</button>
-  <button class="filter-pill" onclick="filterCat('pre-workout',this)">Pre-Workout</button>
-  <button class="filter-pill" onclick="filterCat('recovery',this)">Recovery</button>
-  <button class="filter-pill" onclick="filterCat('vitamins',this)">Vitamins</button>
-  <button class="filter-pill" onclick="filterCat('weight',this)">Weight</button>
-  <span class="filter-count" id="filterCount">12 products</span>
+  <span class="filter-count" id="filterCount">Loading…</span>
 </div>
 
 <div class="catalog">
-  <div class="product-grid" id="productGrid"></div>
+  <div class="product-grid" id="productGrid">
+    <div style="grid-column:1/-1;text-align:center;padding:60px 0;color:rgba(255,255,255,0.3);font-size:14px">Loading products…</div>
+  </div>
 </div>
 
 <!-- CART DRAWER -->
@@ -233,146 +238,167 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-const PRODUCTS = [
-  {
-    id: 1, name: 'Whey Protein Isolate', category: 'protein', cat_label: 'Protein',
-    desc: 'Ultra-pure 90% protein per serving. Cold-filtered to preserve bioactive fractions. Mixes instantly, zero grit.',
-    price: 54.99, badge: 'Best Seller', badgeClass: 'badge-best',
-    color: '#00A550', color2: '#007A3A', textColor: '#00A550',
-    stats: [{ val: '27g', key: 'Protein' }, { val: '1g', key: 'Carbs' }, { val: '0.5g', key: 'Fat' }],
-    flavors: 'Chocolate · Vanilla · Strawberry'
-  },
-  {
-    id: 2, name: 'Mass Gainer Pro', category: 'weight', cat_label: 'Weight Gain',
-    desc: 'Hard gainers rejoice — 1,250 calories per serving with a 4:1 carb-to-protein ratio for serious size.',
-    price: 69.99, badge: 'New', badgeClass: 'badge-new',
-    color: '#F97316', color2: '#C2410C', textColor: '#F97316',
-    stats: [{ val: '50g', key: 'Protein' }, { val: '250g', key: 'Carbs' }, { val: '1250', key: 'Calories' }],
-    flavors: 'Chocolate Fudge · Cookies & Cream'
-  },
-  {
-    id: 3, name: 'Pre-Workout Ignite', category: 'pre-workout', cat_label: 'Pre-Workout',
-    desc: 'Clinical doses of citrulline, beta-alanine, and caffeine. No prop blends. Maximum power output.',
-    price: 44.99, badge: 'Hot', badgeClass: 'badge-hot',
-    color: '#E53E3E', color2: '#9B1C1C', textColor: '#E53E3E',
-    stats: [{ val: '8g', key: 'Citrulline' }, { val: '3.2g', key: 'Beta-Alanine' }, { val: '250mg', key: 'Caffeine' }],
-    flavors: 'Watermelon · Blue Razz · Tropical'
-  },
-  {
-    id: 4, name: 'BCAA Recovery 2:1:1', category: 'recovery', cat_label: 'Recovery',
-    desc: 'The gold-standard 2:1:1 leucine ratio to maximize muscle protein synthesis and crush DOMS.',
-    price: 34.99, badge: null, badgeClass: '',
-    color: '#8B5CF6', color2: '#5B21B6', textColor: '#8B5CF6',
-    stats: [{ val: '5g', key: 'BCAAs' }, { val: '2.5g', key: 'Leucine' }, { val: '0', key: 'Calories' }],
-    flavors: 'Grape · Peach Mango · Lemon'
-  },
-  {
-    id: 5, name: 'Creatine Monohydrate', category: 'recovery', cat_label: 'Strength',
-    desc: 'The most researched supplement on the planet. Micronized for rapid absorption. Pure. No fillers.',
-    price: 24.99, badge: 'Best Seller', badgeClass: 'badge-best',
-    color: '#3B82F6', color2: '#1D4ED8', textColor: '#3B82F6',
-    stats: [{ val: '5g', key: 'Creatine' }, { val: '100%', key: 'Pure' }, { val: '60', key: 'Servings' }],
-    flavors: 'Unflavored · Fruit Punch'
-  },
-  {
-    id: 6, name: 'Casein Night Protein', category: 'protein', cat_label: 'Protein',
-    desc: 'Slow-digesting micellar casein that feeds your muscles for 7+ hours while you sleep. Wake up bigger.',
-    price: 59.99, badge: null, badgeClass: '',
-    color: '#14B8A6', color2: '#0F766E', textColor: '#14B8A6',
-    stats: [{ val: '24g', key: 'Protein' }, { val: '7hr', key: 'Release' }, { val: '2g', key: 'Carbs' }],
-    flavors: 'Chocolate · Vanilla Bean'
-  },
-  {
-    id: 7, name: 'Fat Burner Thermo X', category: 'weight', cat_label: 'Fat Loss',
-    desc: 'Thermogenic matrix with green tea extract, CLA, and L-Carnitine to accelerate fat oxidation.',
-    price: 39.99, badge: 'Hot', badgeClass: 'badge-hot',
-    color: '#F59E0B', color2: '#B45309', textColor: '#F59E0B',
-    stats: [{ val: '500mg', key: 'Green Tea' }, { val: '1000mg', key: 'CLA' }, { val: '1.5g', key: 'L-Carnitine' }],
-    flavors: 'Capsules · Berry Blast'
-  },
-  {
-    id: 8, name: 'Omega-3 Fish Oil', category: 'vitamins', cat_label: 'Vitamins',
-    desc: 'Pharmaceutical-grade triglyceride omega-3s. 2,000mg EPA+DHA per serving. Molecularly distilled, no fishy burps.',
-    price: 29.99, badge: null, badgeClass: '',
-    color: '#06B6D4', color2: '#0E7490', textColor: '#06B6D4',
-    stats: [{ val: '1200mg', key: 'EPA' }, { val: '800mg', key: 'DHA' }, { val: '3x', key: 'Potency' }],
-    flavors: 'Softgels'
-  },
-  {
-    id: 9, name: 'Multivitamin Elite', category: 'vitamins', cat_label: 'Vitamins',
-    desc: 'Athlete-optimized formula with 25+ vitamins and minerals. Includes adaptogens and digestive enzymes.',
-    price: 34.99, badge: 'New', badgeClass: 'badge-new',
-    color: '#10B981', color2: '#047857', textColor: '#10B981',
-    stats: [{ val: '25+', key: 'Nutrients' }, { val: '500mg', key: 'Vitamin C' }, { val: 'D3+K2', key: 'Complex' }],
-    flavors: 'Tablets'
-  },
-  {
-    id: 10, name: 'Glutamine Recovery', category: 'recovery', cat_label: 'Recovery',
-    desc: 'L-Glutamine supports muscle repair, immune function, and gut health. Essential post-training.',
-    price: 27.99, badge: null, badgeClass: '',
-    color: '#EC4899', color2: '#9D174D', textColor: '#EC4899',
-    stats: [{ val: '5g', key: 'Glutamine' }, { val: '100%', key: 'Pure' }, { val: '50', key: 'Servings' }],
-    flavors: 'Unflavored'
-  },
-  {
-    id: 11, name: 'ZMA Sleep Formula', category: 'recovery', cat_label: 'Recovery',
-    desc: 'Zinc, Magnesium, and B6 synergy for deeper REM sleep, testosterone support, and overnight recovery.',
-    price: 32.99, badge: null, badgeClass: '',
-    color: '#6366F1', color2: '#3730A3', textColor: '#6366F1',
-    stats: [{ val: '30mg', key: 'Zinc' }, { val: '450mg', key: 'Magnesium' }, { val: 'B6', key: 'Synergy' }],
-    flavors: 'Capsules'
-  },
-  {
-    id: 12, name: 'Plant Protein Blend', category: 'protein', cat_label: 'Protein',
-    desc: 'Pea + rice + hemp protein combination hitting a complete amino acid profile. 100% vegan, zero compromise.',
-    price: 49.99, badge: 'New', badgeClass: 'badge-new',
-    color: '#84CC16', color2: '#3F6212', textColor: '#84CC16',
-    stats: [{ val: '22g', key: 'Protein' }, { val: '100%', key: 'Vegan' }, { val: '4g', key: 'Carbs' }],
-    flavors: 'Chocolate · Vanilla · Matcha'
-  },
+// ── Supabase client ──
+const SUPABASE_URL = 'https://lbkpaibivjqszjqzfvqh.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxia3BhaWJpdmpxc3pqcXpmdnFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NTUwMzksImV4cCI6MjA5NjMzMTAzOX0.rCyyZCaxDU_FRxe0zT7EYSDHJYC4SuyP6NkA9ZJZMBE';
+const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── Fallback static products ──
+const STATIC_PRODUCTS = [
+  { id: 1, name: 'Whey Protein Isolate', category: 'protein', cat_label: 'Protein', desc: 'Ultra-pure 90% protein per serving. Cold-filtered to preserve bioactive fractions. Mixes instantly, zero grit.', price: 54.99, badge: 'Best Seller', badgeClass: 'badge-best', stats: [{ val: '27g', key: 'Protein' }, { val: '1g', key: 'Carbs' }, { val: '0.5g', key: 'Fat' }], image_url: '' },
+  { id: 2, name: 'Mass Gainer Pro', category: 'weight', cat_label: 'Weight Gain', desc: 'Hard gainers rejoice — 1,250 calories per serving with a 4:1 carb-to-protein ratio for serious size.', price: 69.99, badge: 'New', badgeClass: 'badge-new', stats: [{ val: '50g', key: 'Protein' }, { val: '250g', key: 'Carbs' }, { val: '1250', key: 'Calories' }], image_url: '' },
+  { id: 3, name: 'Pre-Workout Ignite', category: 'pre-workout', cat_label: 'Pre-Workout', desc: 'Clinical doses of citrulline, beta-alanine, and caffeine. No prop blends. Maximum power output.', price: 44.99, badge: 'Hot', badgeClass: 'badge-hot', stats: [{ val: '8g', key: 'Citrulline' }, { val: '3.2g', key: 'Beta-Alanine' }, { val: '250mg', key: 'Caffeine' }], image_url: '' },
+  { id: 4, name: 'BCAA Recovery 2:1:1', category: 'recovery', cat_label: 'Recovery', desc: 'The gold-standard 2:1:1 leucine ratio to maximize muscle protein synthesis and crush DOMS.', price: 34.99, badge: null, badgeClass: '', stats: [{ val: '5g', key: 'BCAAs' }, { val: '2.5g', key: 'Leucine' }, { val: '0', key: 'Calories' }], image_url: '' },
+  { id: 5, name: 'Creatine Monohydrate', category: 'recovery', cat_label: 'Strength', desc: 'The most researched supplement on the planet. Micronized for rapid absorption. Pure. No fillers.', price: 24.99, badge: 'Best Seller', badgeClass: 'badge-best', stats: [{ val: '5g', key: 'Creatine' }, { val: '100%', key: 'Pure' }, { val: '60', key: 'Servings' }], image_url: '' },
+  { id: 6, name: 'Casein Night Protein', category: 'protein', cat_label: 'Protein', desc: 'Slow-digesting micellar casein that feeds your muscles for 7+ hours while you sleep.', price: 59.99, badge: null, badgeClass: '', stats: [{ val: '24g', key: 'Protein' }, { val: '7hr', key: 'Release' }, { val: '2g', key: 'Carbs' }], image_url: '' },
 ];
 
 let currentCat = 'all';
+let PRODUCTS = [];
 let cart = JSON.parse(localStorage.getItem('mn-cart') || '[]');
 
+// ── Apply brand color ──
+function applyBrandColor(primary, accent) {
+  const root = document.documentElement;
+  root.style.setProperty('--brand', primary);
+  root.style.setProperty('--brand-d', accent || darkenHex(primary, 0.25));
+}
+
+function darkenHex(hex, amount) {
+  const n = parseInt(hex.replace('#',''), 16);
+  const r = Math.max(0, Math.round(((n >> 16) & 0xff) * (1 - amount)));
+  const g = Math.max(0, Math.round(((n >> 8) & 0xff) * (1 - amount)));
+  const b = Math.max(0, Math.round((n & 0xff) * (1 - amount)));
+  return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
+}
+
+// ── Load from Supabase ──
+async function loadFromSupabase() {
+  try {
+    // Find Mass Nutrition client
+    const { data: clients } = await _sb
+      .from('clients')
+      .select('id')
+      .eq('business_name', 'Mass Nutrition')
+      .limit(1);
+
+    const clientId = clients?.[0]?.id;
+    if (!clientId) { useFallback(); return; }
+
+    // Load theme + products in parallel
+    const [{ data: siteContent }, { data: productsData }] = await Promise.all([
+      _sb.from('site_content').select('primary_color, accent_color, company_name, hero_subtitle').eq('client_id', clientId).single(),
+      _sb.from('products').select('*').eq('client_id', clientId).order('display_order'),
+    ]);
+
+    // Apply brand color
+    if (siteContent?.primary_color) {
+      applyBrandColor(siteContent.primary_color, siteContent.accent_color);
+    }
+
+    // Render products
+    if (productsData && productsData.length > 0) {
+      PRODUCTS = productsData.map(p => ({
+        id: p.id,
+        name: p.name,
+        category: (p.category || '').toLowerCase().replace(/\s+/g, '-'),
+        cat_label: p.category,
+        desc: p.description,
+        price: p.price,
+        badge: p.badge || null,
+        badgeClass: getBadgeClass(p.badge_type),
+        stats: [
+          p.stat1_val && p.stat1_key ? { val: p.stat1_val, key: p.stat1_key } : null,
+          p.stat2_val && p.stat2_key ? { val: p.stat2_val, key: p.stat2_key } : null,
+          p.stat3_val && p.stat3_key ? { val: p.stat3_val, key: p.stat3_key } : null,
+        ].filter(Boolean),
+        image_url: p.image_url || '',
+      }));
+    } else {
+      PRODUCTS = STATIC_PRODUCTS;
+    }
+
+    buildFilterPills();
+    renderProducts(currentCat);
+  } catch (e) {
+    useFallback();
+  }
+}
+
+function useFallback() {
+  PRODUCTS = STATIC_PRODUCTS;
+  buildFilterPills();
+  renderProducts(currentCat);
+}
+
+function getBadgeClass(badgeType) {
+  const map = { 'badge-new': 'badge-new', 'badge-hot': 'badge-hot', 'badge-best': 'badge-best', 'badge-sale': 'badge-sale' };
+  return map[badgeType] || 'badge-new';
+}
+
+// ── Build filter pills from actual categories ──
+function buildFilterPills() {
+  const cats = [...new Set(PRODUCTS.map(p => p.category))].filter(Boolean);
+  const bar = document.getElementById('filtersBar');
+  // Keep "All" pill and filter-count, rebuild category pills
+  bar.innerHTML = `<button class="filter-pill active" onclick="filterCat('all',this)">All</button>`;
+  cats.forEach(cat => {
+    const label = PRODUCTS.find(p => p.category === cat)?.cat_label || cat;
+    bar.innerHTML += `<button class="filter-pill" onclick="filterCat('${cat}',this)">${label}</button>`;
+  });
+  bar.innerHTML += `<span class="filter-count" id="filterCount"></span>`;
+}
+
+// ── Render ──
 function renderProducts(cat) {
   const filtered = cat === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === cat);
-  document.getElementById('filterCount').textContent = filtered.length + ' product' + (filtered.length !== 1 ? 's' : '');
+  const count = filtered.length;
+  const countEl = document.getElementById('filterCount');
+  if (countEl) countEl.textContent = count + ' product' + (count !== 1 ? 's' : '');
+
+  if (filtered.length === 0) {
+    document.getElementById('productGrid').innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:rgba(255,255,255,0.3);font-size:14px">No products found.</div>`;
+    return;
+  }
+
   document.getElementById('productGrid').innerHTML = filtered.map(p => `
     <div class="sup-card" data-cat="${p.category}">
-      <div class="sup-card-img" style="background:linear-gradient(135deg,${p.color}18,${p.color2}30)">
-        <div class="bg-glow" style="background:radial-gradient(circle at 50% 50%, ${p.color}, transparent 70%)"></div>
+      <div class="sup-card-img" style="background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 12%,#111),color-mix(in srgb,var(--brand-d) 20%,#0a0a0a))">
+        <div class="bg-glow" style="background:radial-gradient(circle at 50% 50%, var(--brand), transparent 70%)"></div>
         ${p.badge ? `<div class="floating-badge ${p.badgeClass}">${p.badge}</div>` : ''}
-        <div class="can-visual">
-          <div class="can-top" style="background:linear-gradient(90deg,${p.color},${p.color2})"></div>
-          <div class="can-body" style="background:linear-gradient(160deg,#1a1a1a,#111)">
-            <div class="can-brand">MASS</div>
-            <div class="can-name" style="color:${p.color}">${p.name.split(' ').slice(0,2).join('<br>')}</div>
-            <div class="can-sub" style="color:${p.color}">${p.cat_label}</div>
-          </div>
-          <div class="can-bottom" style="background:linear-gradient(90deg,${p.color2},${p.color})"></div>
-          <div class="can-shine"></div>
-        </div>
+        ${p.image_url
+          ? `<img class="product-photo" src="${p.image_url}" alt="${p.name}" />`
+          : `<div class="can-visual">
+              <div class="can-top" style="background:linear-gradient(90deg,var(--brand),var(--brand-d))"></div>
+              <div class="can-body" style="background:linear-gradient(160deg,#1a1a1a,#111)">
+                <div class="can-brand">MASS</div>
+                <div class="can-name" style="color:var(--brand)">${p.name.split(' ').slice(0,2).join('<br>')}</div>
+                <div class="can-sub" style="color:var(--brand)">${p.cat_label || ''}</div>
+              </div>
+              <div class="can-bottom" style="background:linear-gradient(90deg,var(--brand-d),var(--brand))"></div>
+              <div class="can-shine"></div>
+            </div>`
+        }
       </div>
       <div class="sup-card-body">
-        <div class="sup-cat" style="color:${p.color}">${p.cat_label}</div>
+        <div class="sup-cat">${p.cat_label || p.category}</div>
         <div class="sup-name">${p.name}</div>
         <div class="sup-desc">${p.desc}</div>
+        ${p.stats && p.stats.length > 0 ? `
         <div class="sup-macros">
           ${p.stats.map(s => `
             <div class="sup-macro">
-              <div class="sup-macro-val" style="color:${p.color}">${s.val}</div>
+              <div class="sup-macro-val">${s.val}</div>
               <div class="sup-macro-key">${s.key}</div>
             </div>
           `).join('')}
-        </div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:14px">Flavors: ${p.flavors}</div>
+        </div>` : ''}
         <div class="sup-footer">
-          <div class="sup-price" style="color:${p.color}">$${p.price.toFixed(2)}<span>/ tub</span></div>
+          <div class="sup-price">$${Number(p.price).toFixed(2)}<span>/ tub</span></div>
           <button class="btn-add-sup"
-            style="background:linear-gradient(135deg,${p.color},${p.color2});color:#fff;box-shadow:0 4px 14px ${p.color}40"
-            onclick="addToCart(this,'${p.name}',${p.price},'${p.cat_label}','${p.color}','${p.color2}')">
+            onclick="addToCart(this,'${p.name.replace(/'/g,"\\'")}',${p.price},'${(p.cat_label||'').replace(/'/g,"\\'")}')">
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
             Add to Cart
           </button>
@@ -389,10 +415,11 @@ function filterCat(cat, btn) {
   renderProducts(cat);
 }
 
-function addToCart(btn, name, price, category, color, color2) {
+// ── Cart ──
+function addToCart(btn, name, price, category) {
   const existing = cart.find(i => i.name === name);
   if (existing) { existing.qty++; }
-  else { cart.push({ name, price, qty: 1, category, color, color2 }); }
+  else { cart.push({ name, price, qty: 1, category }); }
   localStorage.setItem('mn-cart', JSON.stringify(cart));
   updateCartUI();
   btn.innerHTML = `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Added!`;
@@ -418,11 +445,9 @@ function updateCartUI() {
   const badge = document.getElementById('cartBadge');
   badge.textContent = total;
   badge.style.display = total ? 'flex' : 'none';
-
   const footer = document.getElementById('cartFooter');
   const itemsEl = document.getElementById('cartItems');
   document.getElementById('cartCount').textContent = total + ' item' + (total !== 1 ? 's' : '');
-
   if (!cart.length) {
     footer.style.display = 'none';
     itemsEl.innerHTML = `<div style="text-align:center;padding:60px 20px;color:rgba(255,255,255,0.35)"><div style="font-size:48px;margin-bottom:16px">🛒</div><div style="font-weight:700;margin-bottom:8px">Your cart is empty</div><div style="font-size:13px">Add some products to get started</div></div>`;
@@ -431,13 +456,13 @@ function updateCartUI() {
   footer.style.display = 'block';
   itemsEl.innerHTML = cart.map((item, idx) => `
     <div class="cart-item">
-      <div class="cart-item-icon" style="background:linear-gradient(135deg,${item.color||'#00A550'},${item.color2||'#007A3A'})">
+      <div class="cart-item-icon">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2h-4"/><rect x="9" y="1" width="6" height="4" rx="1"/></svg>
       </div>
       <div class="cart-item-info">
         <div class="cart-item-name">${item.name}</div>
         <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:2px">${item.category||''}</div>
-        <div class="cart-item-price" style="color:${item.color||'#00A550'}">$${(item.price*item.qty).toFixed(2)}</div>
+        <div class="cart-item-price">$${(item.price*item.qty).toFixed(2)}</div>
       </div>
       <div class="cart-item-qty">
         <button class="qty-btn" onclick="changeQty(${idx},-1)">−</button>
@@ -460,7 +485,8 @@ function closeCart() {
   document.getElementById('cartDrawer').classList.remove('open');
 }
 
-renderProducts('all');
+// ── Init ──
+loadFromSupabase();
 updateCartUI();
 </script>
 </body>
